@@ -1,0 +1,68 @@
+version: "3.8"
+
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - VERSION=docker
+      - PLEX_CLAIM= # Optional: Get from https://plex.tv/claim (valid for 4 minutes)
+      # Uncomment below for hardware transcoding (if GPU available)
+      # - NVIDIA_VISIBLE_DEVICES=all
+      # - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+    volumes:
+      # Configuration and metadata
+      - ./config:/config
+      - ./transcode:/transcode
+      
+      # Media libraries (read-only recommended)
+      # Update paths to match your drive UUIDs
+      - /srv/dev-disk-by-uuid-aaaaaaaa-bbbb-cccc-dddd-111111111111/movies:/movies:ro
+      - /srv/dev-disk-by-uuid-cccccccc-dddd-eeee-ffff-333333333333/tvseries:/tv:ro
+      - /srv/dev-disk-by-uuid-bbbbbbbb-cccc-dddd-eeee-222222222222/music:/music:ro
+      
+      # Optional: Additional media paths
+      # - /srv/dev-disk-by-uuid-xxx/audiobooks:/audiobooks:ro
+      # - /srv/dev-disk-by-uuid-xxx/podcasts:/podcasts:ro
+    
+    # Uncomment for hardware transcoding support
+    # devices:
+    #   - /dev/dri:/dev/dri  # Intel GPU for hardware acceleration
+    
+    restart: unless-stopped
+    
+    # Resource limits (optional - adjust based on your needs)
+    deploy:
+      resources:
+        limits:
+          memory: 4G  # Limit Plex to 4GB RAM
+        reservations:
+          memory: 1G  # Reserve 1GB RAM
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:32400/identity"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Plex Meta Manager for advanced library management
+  # pmm:
+  #   image: meisnate12/plex-meta-manager:latest
+  #   container_name: plex-meta-manager
+  #   environment:
+  #     - TZ=America/New_York
+  #   volumes:
+  #     - ./pmm-config:/config
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - plex
+
+networks:
+  default:
+    name: plex-network

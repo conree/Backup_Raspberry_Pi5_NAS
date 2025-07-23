@@ -1,0 +1,136 @@
+version: "3.8"
+
+# IMPORTANT: Update the paths in .env file to match your drive UUIDs
+# Copy the .env.example to .env and modify accordingly
+
+name: immich
+
+services:
+  immich-server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    command: ['start.sh', 'immich']
+    volumes:
+      # Upload directory - where new photos are stored
+      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      
+      # External library (optional) - existing photo collection
+      # - ${EXTERNAL_PATH}:/usr/src/app/external:ro
+      
+      # Timezone
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    ports:
+      - 2283:3001
+    depends_on:
+      - redis
+      - database
+    restart: always
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 512M
+
+  immich-microservices:
+    container_name: immich_microservices
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    # extends: # uncomment this section if you want to enable hardware acceleration for machine learning
+    #   file: hwaccel.ml.yml 
+    #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated inference - use the README for more information
+    command: ['start.sh', 'microservices']
+    volumes:
+      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      # - ${EXTERNAL_PATH}:/usr/src/app/external:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - database
+    restart: always
+    
+    # Resource limits for background processing
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+        reservations:
+          memory: 1G
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    # For hardware acceleration, add build args to the image
+    # See: https://immich.app/docs/features/ml-hardware-acceleration
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
+    # extends: # uncomment this section if you want to enable hardware acceleration for machine learning
+    #   file: hwaccel.ml.yml
+    #   service: cpu # set to one of [armnn, cuda, openvino, openvino-wsl] for accelerated inference - use the README for more information
+    volumes:
+      - model-cache:/cache
+    env_file:
+      - .env
+    restart: always
+    
+    # Resource limits for ML processing
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 512M
+
+  redis:
+    container_name: immich_redis
+    image: redis:6.2-alpine@sha256:51d6c56749a4243096327e3fb964a48ed92254357108449cb6e23999c37773c5
+    restart: always
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 64M
+
+  database:
+    container_name: immich_postgres
+    image: tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE_NAME}
+    volumes:
+      # Database storage - consider placing on faster storage
+      - postgres-data:/var/lib/postgresql/data
+    restart: always
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 256M
+    
+    # Health check
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+
+volumes:
+  model-cache:
+    name: immich_model_cache
+  postgres-data:
+    name: immich_postgres_data
+
+networks:
+  default:
+    name: immich_default
