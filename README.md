@@ -1,229 +1,319 @@
-# Complete Raspberry Pi 5 NAS Setup
+# Raspberry Pi NAS Backup System 🥧🛡️
 
-> **⚠️ Privacy Notice**: This repository contains example configurations with anonymized data for educational purposes. All usernames, IP addresses, UUIDs, and personal information have been replaced with generic examples. Replace these with your actual values when implementing.
+> **Complete Raspberry Pi NAS backup solution with automated scripts, Docker configurations, and comprehensive documentation for bulletproof data protection**
 
-A comprehensive guide for building a production-ready NAS using Raspberry Pi 5, complete with media streaming, photo management, and automated backups.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=flat&logo=gnu-bash&logoColor=white)](https://www.gnu.org/software/bash/)
+[![Raspberry Pi](https://img.shields.io/badge/-Raspberry%20Pi-C51A4A?style=flat&logo=Raspberry-Pi)](https://www.raspberrypi.org/)
 
-## 🏗️ Hardware Setup
+## 🍓 Privacy Notice
 
-### Components Used
-- **Raspberry Pi 5** (8GB RAM recommended)
-- **Radaxa Penta HAT** (5-bay SATA expansion)
-- **4x 2TB TeamGroup SSDs** (SATA)
-- **M.2 NVMe SSD** (for boot drive via USB adapter)
-- **Cat 8 Ethernet cables** (gigabit networking)
+⚠️ **This repository contains example configurations with anonymized data for educational purposes. All usernames, IP addresses, UUIDs, and personal information have been replaced with generic examples. Replace these with your actual values when implementing.**
 
-### Storage Configuration
-- **Boot Drive**: M.2 NVMe SSD (external USB adapter)
-- **Data Storage**: 4x 2TB SSDs via Radaxa Penta HAT
-- **Protection**: SnapRAID parity + content files
-- **Total Usable**: ~6TB with 1x parity protection
+## 🚀 Why This NAS Backup Solution?
 
-## 📊 Performance Results
+**Traditional Pi NAS setups are vulnerable to data loss.** This system provides **production-ready protection** with automated backup strategies:
 
-### Network Performance
-- **Local throughput**: 38.9 Gbps (loopback)
-- **Internet**: 1GB fiber connection
-- **Streaming**: Supports multiple 4K streams
+- 💾 **Drive failures** → Multiple backup destinations protect your data
+- 🔥 **System corruption** → Complete Docker configuration backups
+- 📱 **Service failures** → Restore Plex, Immich, and other services instantly
+- ⚙️ **Config loss** → Automated configuration snapshots
 
-### Storage Performance
-- **Individual SSD speed**: 486-520 MB/sec per drive
-- **Cached reads**: 4.6-5.7 GB/sec
-- **4K streaming**: Smooth, no buffering issues
-
-## 🛠️ Software Stack
-
-### Base System
-- **OS**: Raspberry Pi OS (Debian 12 Bookworm)
-- **NAS OS**: OpenMediaVault 7 (OMV)
-- **Containerization**: Docker + Portainer
-- **Storage Protection**: SnapRAID
-
-### Applications
-- **Media Server**: Plex Media Server
-- **Photo Management**: Immich
-- **Backup**: rclone to Google Drive
-- **Monitoring**: Built-in OMV tools
-
-## 🚀 Quick Start
-
-### 1. Automated Installation
-```bash
-# Clone this repository
-git clone https://github.com/your-username/YOUR_PI_HOSTNAME-setup.git
-cd YOUR_PI_HOSTNAME-setup
-
-# Run automated installation
-chmod +x scripts/installation/automated_install.sh
-./scripts/installation/automated_install.sh
-```
-
-### 2. Manual Installation
-Follow the detailed guides in order:
-1. [Hardware Setup](docs/hardware-setup.md)
-2. [Software Installation](docs/software-installation.md)
-3. [NVMe Boot Drive Cloning](docs/nvme-cloning.md)
-4. [Advanced Configuration](docs/advanced-configuration.md)
-
-## 🎯 Key Features
-
-### Real-World Problem Solving
-- **Plex Streaming Issues**: Fixed chapter thumbnail generation conflicts
-- **NVMe Boot Cloning**: Complete guide with PARTUUID and firmware fixes
-- **Performance Optimization**: Actual tested configurations
-- **Comprehensive Monitoring**: Health checks and alerting
-
-### Production-Ready Features
-- **Automated Installation**: One-command setup
-- **Security Hardening**: Firewall, SSH keys, container security
-- **Backup Solutions**: Automated cloud sync with bandwidth limiting
-- **CI/CD Pipeline**: Automated testing and validation
-
-## 📁 Project Structure
+## 🏗️ Complete Pi5 NAS Architecture
 
 ```
-YOUR_PI_HOSTNAME-setup/
-├── README.md
-├── docs/
-│   ├── hardware-setup.md
-│   ├── software-installation.md
-│   ├── nvme-cloning.md
-│   ├── advanced-configuration.md
-│   └── troubleshooting.md
+┌─────────────────────────────────────────────────────────────┐
+│                    RASPBERRY PI 5 NAS SYSTEM                │
+├─────────────────────────────────────────────────────────────┤
+│  HARDWARE LAYER                                             │
+│  • Raspberry Pi 5 (8GB RAM recommended)                    │
+│  • Radaxa Penta HAT (5-bay SATA expansion)                 │
+│  • NVMe boot drive + multiple SATA storage drives          │
+├─────────────────────────────────────────────────────────────┤
+│  SOFTWARE LAYER                                             │
+│  • Docker containerized services                            │
+│  • Plex Media Server (streaming)                           │
+│  • Immich (photo management)                               │
+│  • Portainer (container management)                        │
+├─────────────────────────────────────────────────────────────┤
+│  BACKUP LAYER                                               │
+│  • Automated daily backups                                 │
+│  • Docker configuration snapshots                          │
+│  • Multi-destination redundancy                            │
+│  • Cron-based scheduling                                   │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## ⚡ Key Features
+
+### 🔧 **Hardware Setup**
+- **Raspberry Pi 5 optimization** - Complete setup guide
+- **Radaxa Penta HAT integration** - 5-bay SATA expansion
+- **NVMe boot configuration** - Fast system performance
+- **Multi-drive RAID setup** - Storage redundancy
+
+### 🐳 **Docker Services**
+- **Plex Media Server** - Complete streaming solution
+- **Immich** - Self-hosted photo management
+- **Portainer** - Web-based container management
+- **Automated deployments** - Docker Compose configurations
+
+### 🛡️ **Backup & Protection**
+- **Automated backup scripts** - Daily protection schedule
+- **Configuration snapshots** - Docker and system configs
+- **Multi-destination backups** - Local and remote redundancy
+- **Health monitoring** - System status checks
+
+## 📁 Repository Structure
+
+```
+raspberry-pi-nas-backup/
+├── README.md                   # This comprehensive guide
 ├── scripts/
 │   ├── backup/
-│   │   └── nas_backup.sh
+│   │   ├── NAS_Backup_Script.sh           # Main backup automation
+│   │   └── backup-script-final.sh         # Enhanced backup script
 │   └── installation/
-│       └── automated_install.sh
-├── docker/
-│   ├── plex/
-│   │   └── docker-compose.yml
-│   └── immich/
-│       ├── docker-compose.yml
-│       └── .env.example
-└── .github/
-    └── workflows/
-        └── ci.yml
+│       ├── Raspberry_Pi_5_NAS_Automated_Installation_Script.sh
+│       └── Immich_Environment_Configuration.sh
+├── docs/
+│   ├── hardware-setup-doc.md              # Hardware assembly guide
+│   ├── software-installation-doc.md       # Software setup guide
+│   ├── nvme-cloning-doc.md                # NVMe setup and cloning
+│   └── Complete Pi 5 NAS Setup - README.md.pdf
+└── docker/
+    ├── plex/
+    │   └── Plex_Docker_Compose_Configuration
+    ├── immich/
+    │   ├── Immich_Docker_Compose
+    │   └── Immich Environment Configuration.yaml
+    └── portainer/
+        └── Portainer_Docker_Compose_Configuration
 ```
 
-## 🔧 Configuration Examples
+## 🛠️ Hardware Components
 
-### Plex Media Server
+### **Recommended Setup**
+- **Raspberry Pi 5** (8GB RAM recommended)
+- **Radaxa Penta HAT** (5-bay SATA expansion)
+- **NVMe SSD** (128GB+ for boot drive)
+- **SATA Drives** (Multiple drives for storage array)
+- **Quality Power Supply** (Official Pi 5 PSU recommended)
+
+### **Performance Benefits**
+- **Fast NVMe boot** - Improved system responsiveness
+- **Multiple SATA drives** - High-capacity storage expansion
+- **RAID configurations** - Data redundancy and performance
+- **Efficient cooling** - Reliable long-term operation
+
+## 🚀 Quick Start Guide
+
+### 1. **Hardware Assembly**
 ```bash
-# Deploy Plex with optimized settings
-cd docker/plex
-docker compose up -d
+# Follow the hardware setup documentation
+# docs/hardware-setup-doc.md provides complete assembly guide
+```
+
+### 2. **Clone Repository**
+```bash
+git clone https://github.com/conree/raspberry-pi-nas-backup.git
+cd raspberry-pi-nas-backup
+```
+
+### 3. **Run Automated Installation**
+```bash
+# Make installation script executable
+chmod +x scripts/installation/Raspberry_Pi_5_NAS_Automated_Installation_Script.sh
+
+# Run with your preferred username
+sudo ./scripts/installation/Raspberry_Pi_5_NAS_Automated_Installation_Script.sh
+```
+
+### 4. **Configure Services**
+```bash
+# Set up Docker services
+cp docker/plex/Plex_Docker_Compose_Configuration /home/YOUR_USERNAME/docker/plex/docker-compose.yml
+cp docker/immich/Immich_Docker_Compose /home/YOUR_USERNAME/docker/immich/docker-compose.yml
+
+# Configure environment variables
+cp docker/immich/Immich_Environment_Configuration.yaml /home/YOUR_USERNAME/docker/immich/.env
+```
+
+### 5. **Enable Automated Backups**
+```bash
+# Copy backup script
+cp scripts/backup/NAS_Backup_Script.sh /home/YOUR_USERNAME/scripts/
+chmod +x /home/YOUR_USERNAME/scripts/NAS_Backup_Script.sh
+
+# Add to crontab for daily execution
+echo "0 4 * * * /home/YOUR_USERNAME/scripts/NAS_Backup_Script.sh" | crontab -
+```
+
+## 🐳 Docker Services Setup
+
+### **Plex Media Server**
+```bash
+# Navigate to Plex directory
+cd /home/YOUR_USERNAME/docker/plex
+
+# Start Plex service
+docker-compose up -d
 
 # Access at: http://YOUR_PI_HOSTNAME:32400/web
 ```
 
-### Immich Photo Management
+### **Immich Photo Management**
 ```bash
-# Setup Immich with PostgreSQL
-cd docker/immich
-cp .env.example .env
-# Edit .env with your settings
-docker compose up -d
+# Navigate to Immich directory  
+cd /home/YOUR_USERNAME/docker/immich
+
+# Start Immich services
+docker-compose up -d
 
 # Access at: http://YOUR_PI_HOSTNAME:2283
 ```
 
-### Automated Backups
+### **Portainer Management**
 ```bash
-# Configure rclone with Google Drive
-rclone config
+# Navigate to Portainer directory
+cd /home/YOUR_USERNAME/docker/portainer
 
-# Setup automated backup
-cp scripts/backup/nas_backup.sh /home/YOUR_USERNAME/scripts/
-chmod +x /home/YOUR_USERNAME/scripts/nas_backup.sh
+# Start Portainer
+docker-compose up -d
 
-# Add to crontab (4 AM daily)
-echo "0 4 * * * /home/YOUR_USERNAME/scripts/nas_backup.sh" | crontab -
+# Access at: http://YOUR_PI_HOSTNAME:9000
 ```
 
-## ⚡ Performance Optimizations
+## 🛡️ Backup Features
 
-### Critical Plex Fix - Scheduled Tasks
-**Problem**: "Insufficient bandwidth" errors during streaming
-**Solution**: Disable intensive background tasks during prime time
+### **Automated Backup Script**
+- **Daily execution** - Cron-scheduled protection
+- **Docker configurations** - All service configs backed up
+- **System settings** - Important system files included
+- **Log management** - Comprehensive backup logging
+- **Error handling** - Robust failure detection
 
-1. Plex Settings → Server → Scheduled Tasks
-2. Change maintenance window to 4:00-6:00 AM
-3. Disable "Generate chapter thumbnails during maintenance"
-4. Disable "Perform extensive media analysis during maintenance"
+### **Backup Destinations**
+- **Local storage** - On-device backup copies
+- **External drives** - USB/SATA backup destinations
+- **Network storage** - Remote backup options
+- **Cloud integration** - Optional cloud sync
 
-### NVMe Boot Performance
-- **Boot time improvement**: 45-60s → 25-35s
-- **Random I/O**: 10-20 MB/s → 100-200 MB/s
-- **Application responsiveness**: Significantly improved
+### **What Gets Backed Up**
+- **Docker configurations** - All docker-compose files
+- **Service data** - Plex libraries, Immich photos
+- **System configurations** - Network, user settings
+- **Installation scripts** - Recovery and setup scripts
 
-## 🔍 Troubleshooting
+## 📖 Comprehensive Documentation
 
-### Common Issues
-- **Streaming Problems**: See [troubleshooting guide](docs/troubleshooting.md#streaming-issues)
-- **Storage Detection**: Check [hardware troubleshooting](docs/troubleshooting.md#storage-issues)
-- **Boot Issues**: Follow [NVMe cloning guide](docs/nvme-cloning.md#troubleshooting-boot-issues)
+### **Setup Guides**
+- **[Hardware Setup](docs/hardware-setup-doc.md)** - Physical assembly guide
+- **[Software Installation](docs/software-installation-doc.md)** - Complete software setup
+- **[NVMe Configuration](docs/nvme-cloning-doc.md)** - Boot drive setup and cloning
 
-### Performance Monitoring
+### **Service Documentation**
+- **Plex Configuration** - Media server optimization
+- **Immich Setup** - Photo management configuration
+- **Portainer Usage** - Container management guide
+
+## 🔧 Customization Options
+
+### **Modify Backup Schedule**
 ```bash
-# Check system health
-/home/YOUR_USERNAME/scripts/health_check.sh
+# Edit crontab for different timing
+crontab -e
 
-# Monitor real-time performance
-htop
-iotop
-iftop -i eth0
+# Examples:
+# 0 2 * * * = Daily at 2 AM
+# 0 4 * * 0 = Weekly on Sunday at 4 AM  
+# 0 6 1 * * = Monthly on 1st at 6 AM
 ```
 
-## 📈 Results & Benefits
+### **Add Additional Services**
+```bash
+# Create new docker-compose configuration
+mkdir /home/YOUR_USERNAME/docker/new-service
+# Add your docker-compose.yml
+# Update backup script to include new service
+```
 
-### Performance Achievements
-- **4K streaming**: Multiple simultaneous streams
-- **Photo processing**: Fast Immich performance with face recognition
-- **Backup speed**: 50MB/sec sustained uploads
-- **Boot time**: <30 seconds from NVMe
+### **Configure Storage Arrays**
+```bash
+# Set up RAID configurations
+# Modify mount points in docker configurations
+# Update backup destinations
+```
 
-### Reliability Features
-- **Data protection**: SnapRAID parity + multiple content files
-- **Automatic recovery**: Container restart policies
-- **Remote backup**: Complete cloud synchronization
-- **Monitoring**: Comprehensive logging and health checks
+## 🧪 Testing & Monitoring
 
-## 🎥 Video Series
+### **System Health Checks**
+```bash
+# Run system monitor script
+/home/YOUR_USERNAME/scripts/system_monitor.sh
 
-Complete video tutorial series available:
-- **Series 1**: Hardware Setup and Assembly
-- **Series 2**: Software Installation and Configuration  
-- **Series 3**: Application Deployment (Plex, Immich)
-- **Series 4**: Advanced Configuration and Optimization
-- **Series 5**: Troubleshooting Real-World Issues
+# Check Docker service status
+docker ps -a
 
-See [Video Documentation](docs/VIDEO_DOCUMENTATION.md) for scripts and production guides.
+# Monitor storage usage
+df -h
+```
+
+### **Backup Verification**
+```bash
+# Test backup script
+/home/YOUR_USERNAME/scripts/NAS_Backup_Script.sh --test
+
+# Verify backup integrity
+ls -la /backup/destination/
+
+# Check backup logs
+tail -f /home/YOUR_USERNAME/logs/backup.log
+```
+
+## 📊 Performance Specifications
+
+| Component | Specification | Performance |
+|-----------|--------------|-------------|
+| **CPU** | Raspberry Pi 5 (Quad-core ARM) | Efficient media serving |
+| **RAM** | 8GB (recommended) | Multiple concurrent streams |
+| **Storage** | NVMe + SATA array | Fast access + high capacity |
+| **Network** | Gigabit Ethernet | Full bandwidth utilization |
+| **Services** | Docker containers | Isolated, manageable services |
 
 ## 🤝 Contributing
 
-Contributions welcome! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Test your changes thoroughly
-4. Submit a pull request with detailed description
+Contributions welcome! This Pi NAS solution has been tested in real-world scenarios.
 
-See our [CI/CD pipeline](.github/workflows/ci.yml) for automated testing.
+- **🐛 Hardware Issues**: Report compatibility problems
+- **💡 Service Additions**: Suggest new Docker services
+- **📝 Documentation**: Improve setup guides
+- **🔧 Scripts**: Enhance backup and monitoring
 
-## 📄 License
+## 📜 License
 
-MIT License - See LICENSE file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
-- OpenMediaVault team for excellent NAS software
-- Radaxa for Pi 5 compatible SATA HAT
-- Plex and Immich communities for media software
-- Raspberry Pi Foundation for the amazing Pi 5
+- **Raspberry Pi Foundation** - For the incredible Pi 5 hardware
+- **Radaxa** - For the excellent Penta HAT expansion
+- **Docker Community** - For containerization technology
+- **Plex** - For media server software
+- **Immich** - For self-hosted photo management
+- **Real-world testing** - Proven in production environments
+
+## ⚠️ Important Setup Notes
+
+- **Update all YOUR_USERNAME placeholders** with your actual username
+- **Replace YOUR_PI_HOSTNAME** with your Pi's hostname or IP
+- **Configure proper network settings** for your environment
+- **Test backup and recovery procedures** before relying on them
+- **Keep documentation updated** as you customize your setup
 
 ---
 
-**Total Project Cost**: ~$470-500 USD  
-**Setup Time**: 4-6 hours with automation  
-**Skill Level**: Intermediate  
-**Maintenance**: Minimal (automated)
+> **"A well-configured Pi NAS with proper backups is more reliable than many commercial solutions."**  
+> This system provides enterprise-grade reliability on Raspberry Pi hardware.
+
+**🥧 Happy Pi NAS Building! 🛡️🚀**
