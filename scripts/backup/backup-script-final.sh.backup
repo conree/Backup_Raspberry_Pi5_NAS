@@ -239,11 +239,7 @@ main() {
     check_lock
     
     # Check available disk space (minimum 1GB free)
-    # Intelligent space check with cleanup and estimation
-    if ! ./pi-nas-space-manager.sh check; then
-        log_message "ERROR: Space check failed - insufficient storage or quota"
-        exit 1
-    fi
+    check_space "$(dirname "$LOG_FILE")" 1
     
     # Test rclone connection
     if ! test_rclone; then
