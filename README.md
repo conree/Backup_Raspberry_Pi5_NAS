@@ -175,3 +175,29 @@ sudo logrotate -f /etc/logrotate.conf
 
 Last Updated: $(date '+%Y-%m-%d %H:%M:%S')
 System Version: Pi 5 NAS v2.0
+
+## 🧠 Advanced Multi-Drive Space Management
+Intelligent space management system designed for **multi-drive SnapRAID arrays** with **complex storage scenarios**:
+
+### **Multi-Drive Intelligence**
+- **Handles 100% full drives** (like sdc1 in your array)
+- **Routes backups to available drives** automatically
+- **SnapRAID-aware** space calculations
+- **Google Drive quota integration**
+
+### **Advanced Space Commands**
+```bash
+# Pre-backup space validation
+./pi-nas-space-manager.sh check
+
+# Smart cleanup of old logs and failed backups
+./pi-nas-space-manager.sh cleanup
+
+# Show comprehensive backup inventory
+./pi-nas-space-manager.sh inventory
+
+# Monitor Google Drive quota and usage
+./pi-nas-space-manager.sh quota
+```
+
+**Prevents backup failures even when individual drives are 100% full >> README.md* 🛡️
