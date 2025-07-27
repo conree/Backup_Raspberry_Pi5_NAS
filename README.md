@@ -73,6 +73,30 @@ Operation: Scrub 12% of array for integrity
 
 ## ⚙️ Advanced Features
 ### Intelligent Space Management
+The system includes **automated space management** designed for **multi-drive SnapRAID arrays**:
+
+**Multi-Drive Intelligence:**
+- Handles 100% full drives (like sdc1 in your array)
+- Routes backups to available drives automatically
+- SnapRAID-aware space calculations
+- Google Drive quota integration
+
+**Space Management Commands:**
+```bash
+# Pre-backup space validation
+/usr/local/bin/configured/raspberry-pi-nas-backup/scripts/backup/pi-nas-space-manager.sh check
+
+# Smart cleanup of old logs and failed backups
+/usr/local/bin/configured/raspberry-pi-nas-backup/scripts/backup/pi-nas-space-manager.sh cleanup
+
+# Show comprehensive backup inventory
+/usr/local/bin/configured/raspberry-pi-nas-backup/scripts/backup/pi-nas-space-manager.sh inventory
+
+# Monitor Google Drive quota and usage
+/usr/local/bin/configured/raspberry-pi-nas-backup/scripts/backup/pi-nas-space-manager.sh quota
+```
+
+**Prevents backup failures even when individual drives are 100% full!** 🛡️
 ```bash
 # Automated cleanup policies
 PHOTO_RETENTION_DAYS=365        # Keep photos 1 year locally
@@ -183,28 +207,3 @@ sudo logrotate -f /etc/logrotate.conf
 Last Updated: $(date '+%Y-%m-%d %H:%M:%S')
 System Version: Pi 5 NAS v2.0
 
-## 🧠 Advanced Multi-Drive Space Management
-Intelligent space management system designed for **multi-drive SnapRAID arrays** with **complex storage scenarios**:
-
-### **Multi-Drive Intelligence**
-- **Handles 100% full drives** (like sdc1 in your array)
-- **Routes backups to available drives** automatically
-- **SnapRAID-aware** space calculations
-- **Google Drive quota integration**
-
-### **Advanced Space Commands**
-```bash
-# Pre-backup space validation
-./pi-nas-space-manager.sh check
-
-# Smart cleanup of old logs and failed backups
-./pi-nas-space-manager.sh cleanup
-
-# Show comprehensive backup inventory
-./pi-nas-space-manager.sh inventory
-
-# Monitor Google Drive quota and usage
-./pi-nas-space-manager.sh quota
-```
-
-**Prevents backup failures even when individual drives are 100% full >> README.md* 🛡️
