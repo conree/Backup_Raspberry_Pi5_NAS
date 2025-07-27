@@ -6,7 +6,7 @@ set -e
 
 # Configuration
 DOCKER_PATH="/home/YOUR_USERNAME/docker"
-BACKUP_SCRIPT_PATH="/home/YOUR_USERNAME/scripts"
+BACKUP_SCRIPT_PATH="/usr/local/bin/configured/raspberry-pi-nas-backup/scripts/backup"
 LOG_DIR="/home/YOUR_USERNAME/logs"
 TEST_DIR="/tmp/nas_backup_test_$$"
 
@@ -166,10 +166,18 @@ fi
 
 # Test 5: Cron Job Status
 echo_status "Test 5: Checking backup scheduling..."
-
-CRON_JOBS=$(crontab -l 2>/dev/null | grep -v "^#" | grep -v "^$")
-if [ -n "$CRON_JOBS" ]; then
-    echo_success "Cron jobs configured:"
+BACKUP_TIMERS=$(systemctl list-timers --no-pager 2>/dev/null | grep backup)
+if [ -n "$BACKUP_TIMERS" ]; then
+    echo_success "Backup timers configured:"
+    echo "$BACKUP_TIMERS" | tee -a "$LOG_FILE"
+    if echo "$BACKUP_TIMERS" | grep -q "daily-backup|weekly-full-backup"; then
+        echo_success "EndeavourOS Nuclear Backup timers found"
+    else
+        echo_warning "No nuclear backup timers found"
+    fi
+else
+    echo_warning "No backup timers configured"
+fi
     echo "$CRON_JOBS" | tee -a "$LOG_FILE"
     
     # Check for backup-related cron jobs
@@ -178,9 +186,8 @@ if [ -n "$CRON_JOBS" ]; then
     else
         echo_warning "No backup-related cron jobs found"
     fi
-else
+
     echo_warning "No cron jobs configured"
-fi
 
 # Test 6: Storage Mount Points
 echo_status "Test 6: Checking storage mounts..."

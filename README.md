@@ -203,6 +203,21 @@ sudo logrotate -f /etc/logrotate.conf
 - **Compute Upgrade**: Future Pi models compatibility
 - **Software Stack**: Container orchestration evolution
 
-Last Updated: $(date '+%Y-%m-%d %H:%M:%S')
+Last Updated: 2025-07-27
 System Version: Pi 5 NAS v2.0
 
+│   │   ├── NAS_Backup_Script.sh           # Main backup automation
+│   │   └── backup-script-final.sh         # Enhanced backup script
+│   └── installation/
+│       ├── Raspberry_Pi_5_NAS_Automated_Installation_Script.sh
+│       └── Immich_Environment_Configuration.sh
+├── docs/
+│   ├── hardware-setup-doc.md              # Hardware assembly guide
+│   ├── software-installation-doc.md       # Software setup guide
+│   ├── nvme-cloning-doc.md                # NVMe setup and cloning
+│   └── Complete Pi 5 NAS Setup - README.md.pdf
+└── docker/
+    ├── plex/
+    │   └── Plex_Docker_Compose_Configuration
+    ├── immich/
+    │   ├── Immich_Docker_Compose
