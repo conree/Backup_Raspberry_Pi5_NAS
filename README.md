@@ -13,11 +13,18 @@ High-performance automated backup solution for Pi 5 NAS with SnapRAID protection
 ## 📊 Storage Configuration
 ### SnapRAID Array Layout
 ```
-Drive Assignment:
+### Drive Assignment Example:
+```
 ├── sda (2TB) → Data Drive 1 (Movies/TV Shows)
 ├── sdb (2TB) → Data Drive 2 (Music/Audio)
-├── sdc (2TB) → Data Drive 3 (Photos/Documents)
+├── sdc (2TB) → Data Drive 3 (Photos/Documents) - **100% FULL in this example**
+├── sdd (2TB) → Data Drive 4 (General Storage) - **Used for backups (1.8T free)**
 └── sde (2TB) → Parity Drive (Protection)
+```
+
+**📝 Note**: In this configuration, **sdc is 100% full**, so the space management system
+automatically routes backups to **sdd** which has available space. **Adapt drive
+assignments to match your actual hardware and usage patterns.**
 
 Total Capacity: 6TB usable + 2TB parity protection
 ```
