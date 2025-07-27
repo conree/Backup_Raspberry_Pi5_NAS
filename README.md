@@ -12,7 +12,6 @@ High-performance automated backup solution for Pi 5 NAS with SnapRAID protection
 
 ## 📊 Storage Configuration
 ### SnapRAID Array Layout
-```
 ### Drive Assignment Example:
 ```
 ├── sda (2TB) → Data Drive 1 (Movies/TV Shows)
