@@ -240,7 +240,7 @@ main() {
     
     # Check available disk space (minimum 1GB free)
     # Intelligent space check with cleanup and estimation
-    if ! ./pi-nas-space-manager.sh check; then
+    if ! ./nas-space-manager.sh check; then
         log_message "ERROR: Space check failed - insufficient storage or quota"
         exit 1
     fi
